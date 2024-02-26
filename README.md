@@ -1,1 +1,1 @@
-# CS214SpellChecker
+# SpellChecker
