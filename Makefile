@@ -11,20 +11,18 @@ DFLAGS=-Wall -g -D__DEBUG
 TARGET_SPCHK=spchk
 
 # List of source files for spchk
-SOURCES_SPCHK= linestream.c spchk.c
+SOURCES_SPCHK= linestream.c spchk.c binaryTree.c
 
 # Object files to generate for spchk
 OBJECTS_SPCHK=$(SOURCES_SPCHK:.c=.o)
 
 # Default rule to build the spchk
 spchk: $(TARGET_SPCHK)
-	.\$(TARGET_SPCHK)
 	make clean
 
 # Debug rule to build the program spchk with debug flags
 debug_spchk: CFLAGS = $(DFLAGS)
 debug_spchk: $(TARGET_SPCHK)
-	.\$(TARGET_SPCHK)
 	make clean
 
 # Rule for linking the program
@@ -45,4 +43,5 @@ clean:
 
 # Dependencies
 linestream.o: linestream.c linestream.h
+binaryTree.o: binaryTree.c binaryTree.h
 spchk.o: spchk.c spchk.h # Add this line if spchk.h exists and is used

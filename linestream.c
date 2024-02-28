@@ -97,7 +97,10 @@ char *next_line(lines_t *lines)
 
             // breaks if reads error?
             if (bytes < 1)
+            {
+                DEBUG LOG("Breaking from loop\n");
                 break;
+            }
             lines->len = lines->pos + bytes;
             line_start = 0;
             DEBUG LOG("[%d]: Read %d bytes\n", lines->fileDesc, bytes);
@@ -131,7 +134,7 @@ char *next_line(lines_t *lines)
             lines->pos++;
             return lines->buf + line_start;
         }
-        // not end of word or word
+        // not end of word or line
         else
         {
             lines->pos++;
@@ -139,10 +142,16 @@ char *next_line(lines_t *lines)
     }
 
     // Reached end of the file
+    // printf("Reached EOF");
     close(lines->fileDesc);
     lines->fileDesc = -1;
+
+    DEBUG LOG("Lstart:%i,Lpos:%i,Lsize:%i\n", line_start, lines->pos,lines->size);
+
+    // some weird size issue
     if (line_start < lines->pos)
     {
+        DEBUG LOG("start<pos\n");
         if (lines->pos == lines->size)
         {
             lines->buf = realloc(lines->buf, lines->size + 1);
@@ -150,5 +159,7 @@ char *next_line(lines_t *lines)
         lines->buf[lines->pos] = '\0';
         return lines->buf + line_start;
     }
-    return NULL;
+    lines->buf[lines->pos] = '\0';
+    return lines->buf;
+    //return NULL;
 }

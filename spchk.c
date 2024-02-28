@@ -4,13 +4,15 @@
 
 #include "spchk.h"
 #include "linestream.h"
-
+#include "binaryTree.h"
 
 
 int main(int argc, char **argv)
 {
     // file name
-    char *fname = argc > 1 ? argv[1] : "test.txt";
+    char *fname = argc > 1 ? argv[1] : "dict_small.txt";
+
+
     int fileDesc = open(fname, O_RDONLY);
     if (fileDesc < 0)
     {
@@ -27,15 +29,36 @@ int main(int argc, char **argv)
     // create the current line pointer
     char *curLine;
     
-    // line counter?
-    int n = 0;
+    // word counter?
+    int wordCount = 0;
     
-    while ((curLine = next_line(&lines)) && n < 10)
+
+    int arrsize=100;
+    char **wordArr=malloc(arrsize * sizeof(char *));
+
+    while ((curLine = next_line(&lines)))
     {
-        printf("word:::%d:%s\n", n, curLine);
-        //line
-        n++;
+        printf("word:::%d:%s\n", wordCount, curLine);
+        
+        wordArr[wordCount]=strdup(curLine);
+
+        free(curLine);
+        wordCount++;
+
+        // if we run out of room in our array
+        if (wordCount==arrsize){
+            arrsize=arrsize*2;
+            wordArr=realloc(wordArr,sizeof(char *)*arrsize);
+        }
     }
+    for(int i = 0 ;i<wordCount;i++){
+        printf(" %s ",wordArr[i]);
+    }
+    printf("\n\n\n");
+    struct BinaryTreeNode *tree  = buildBalancedBST(wordArr,0, wordCount - 1);
+    preOrder(tree);
     lddestroy(&lines);
     return EXIT_SUCCESS;
 }
+
+
