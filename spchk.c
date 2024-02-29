@@ -6,6 +6,12 @@
 #include "linestream.h"
 #include "binaryTree.h"
 
+#ifndef __DEBUG
+#define __DEBUG 
+#endif
+
+#define DEBUG if(__DEBUG)
+#define LOG printf
 
 int main(int argc, char **argv)
 {
@@ -29,35 +35,43 @@ int main(int argc, char **argv)
     // create the current line pointer
     char *curLine;
     
-    // word counter?
+    // word counter
     int wordCount = 0;
     
 
     int arrsize=100;
-    char **wordArr=malloc(arrsize * sizeof(char *));
+    char **wordArr = malloc(arrsize * sizeof(char *));
 
+    // load the dictionary
     while ((curLine = next_line(&lines)))
     {
-        printf("word:::%d:%s\n", wordCount, curLine);
-        
-        wordArr[wordCount]=strdup(curLine);
+        DEBUG LOG("word:::%d:%s\n", wordCount, curLine);
 
-        free(curLine);
+        wordArr[wordCount]=strdup(curLine); // or make an insert fuction to insert directly into the tree
+
         wordCount++;
 
         // if we run out of room in our array
         if (wordCount==arrsize){
+            DEBUG LOG("Bigger*2\n");
             arrsize=arrsize*2;
             wordArr=realloc(wordArr,sizeof(char *)*arrsize);
         }
     }
-    for(int i = 0 ;i<wordCount;i++){
-        printf(" %s ",wordArr[i]);
-    }
-    printf("\n\n\n");
-    struct BinaryTreeNode *tree  = buildBalancedBST(wordArr,0, wordCount - 1);
-    preOrder(tree);
     lddestroy(&lines);
+
+    printf("\n\n\n");
+    struct BinaryTreeNode *tree  = buildBalancedBST(wordArr, 0, wordCount - 1);
+    preOrder(tree);
+    printf("\n\n\n");
+
+    struct BinaryTreeNode *nodeFound=searchBST(tree, "zookk");
+    if (nodeFound==NULL){
+        printf("Not found.\n");
+    } else {
+        printf("\n\nfound:%s",nodeFound->key);
+    }
+
     return EXIT_SUCCESS;
 }
 

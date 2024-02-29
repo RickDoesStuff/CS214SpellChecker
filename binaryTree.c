@@ -76,3 +76,17 @@ struct BinaryTreeNode* buildBalancedBST(char **words, int start, int end) {
     node->right = buildBalancedBST(words, mid + 1, end);
     return node;
 }
+
+// Function to search for a value in the BST
+struct BinaryTreeNode* searchBST(struct BinaryTreeNode* root, char* value) {
+    // Base Cases: root is null or key is present at root
+    if (root == NULL || strcmp(root->key, value) == 0)
+       return root;
+
+    // Key is greater than root's key
+    if (strcmp(root->key, value) < 0)
+       return searchBST(root->right, value);
+
+    // Key is smaller than root's key
+    return searchBST(root->left, value);
+}
