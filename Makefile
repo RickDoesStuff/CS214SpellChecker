@@ -43,5 +43,6 @@ clean:
 
 # Dependencies
 linestream.o: linestream.c linestream.h
+dictSearch.o: dictSearch.c dictSearch.h
 binaryTree.o: binaryTree.c binaryTree.h
 spchk.o: spchk.c spchk.h # Add this line if spchk.h exists and is used

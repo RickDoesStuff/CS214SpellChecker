@@ -26,8 +26,6 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-
-
     // create lines struct and innit
     lines_t lines;
     ldinit(&lines, fileDesc);
@@ -58,6 +56,7 @@ int main(int argc, char **argv)
             wordArr=realloc(wordArr,sizeof(char *)*arrsize);
         }
     }
+
     lddestroy(&lines);
 
     printf("\n\n\n");
@@ -65,14 +64,7 @@ int main(int argc, char **argv)
     preOrder(tree);
     printf("\n\n\n");
 
-    struct BinaryTreeNode *nodeFound=searchBST(tree, "zookk");
-    if (nodeFound==NULL){
-        printf("Not found.\n");
-    } else {
-        printf("\n\nfound:%s",nodeFound->key);
-    }
+
 
     return EXIT_SUCCESS;
 }
-
-
