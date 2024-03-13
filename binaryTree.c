@@ -100,11 +100,11 @@ struct BinaryTreeNode* searchBST(struct BinaryTreeNode *root, char* value) {
 }
 
 
-int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char* word) 
+int searchDict(struct BinaryTreeNode *tree, char* word) 
 {
     // Test Case MacDonald
-    // check if the word matches exactly
-    // must equal ::MacDonald
+    // check if the word matches exactly or the all caps version
+    // must equal ::MacDonald or MACDONALD
     
     printf("\n\nSeach Dict:%s\n",word);
     if (searchBST(tree, word) != NULL)
@@ -117,11 +117,11 @@ int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, cha
     // check if the word is all caps
     // must equal ::MacDonald
     // given MACDONALD
-    if (searchBST(treeCaps, word) != NULL)
-    {
-        printf("Found:2:%s\n", word);
-        return 1;
-    }
+    // if (searchBST(treeCaps, word) != NULL)
+    // {
+    //     printf("Found:2:%s\n", word);
+    //     return 1;
+    // }
     // int isAllCap = 1;
     // // check if word is all uppercase
     // for(int i = 0; word[i]; i++)
