@@ -6,6 +6,7 @@
 #include "linestream.h"
 #include "binaryTree.h"
 
+
 #ifndef __DEBUG
 #define __DEBUG 
 #endif
@@ -63,6 +64,15 @@ int main(int argc, char **argv)
     struct BinaryTreeNode *tree  = buildBalancedBST(wordArr, 0, wordCount - 1);
     preOrder(tree);
     printf("\n\n\n");
+
+    char *word1="zoom";
+    searchDict(tree,word1);
+    word1="Zoom";
+    searchDict(tree,word1);
+    word1="ZOOM";
+    searchDict(tree,word1);
+    word1="ZooM";
+    searchDict(tree,word1);
 
 
 

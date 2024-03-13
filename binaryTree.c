@@ -1,5 +1,5 @@
 #include "binaryTree.h"
-
+#include <ctype.h>
 // https://www.geeksforgeeks.org/c-program-for-binary-search-tree/
 // https://www.codesdope.com/blog/article/binary-search-tree-in-c/
 // https://www.freecodecamp.org/news/binary-search-trees-bst-explained-with-examples/
@@ -89,4 +89,30 @@ struct BinaryTreeNode* searchBST(struct BinaryTreeNode* root, char* value) {
 
     // Key is smaller than root's key
     return searchBST(root->left, value);
+}
+
+int searchDict(struct BinaryTreeNode *tree, char* word) 
+{
+    char tempWord[50];
+    int found=0;
+    int i =0;
+    while (word[i]) { 
+        char chr = *word[i]; 
+        tempWord[i]=tolower(chr); 
+        i++; 
+    } 
+    printf("%s\n\n",tempWord);
+    struct BinaryTreeNode *nodeFound = searchBST(tree, *word);
+
+    for (int i = 0; i  <3; i++)
+    {
+        if (nodeFound != NULL)
+        {
+            printf("\n\nFound:%s\n",*word);
+            return 1;
+        }
+    }
+    printf("\n\nNot found:%s\n",*word);
+    free(nodeFound);
+    return 0;
 }
