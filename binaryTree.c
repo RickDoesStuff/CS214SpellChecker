@@ -1,9 +1,17 @@
 #include "binaryTree.h"
 #include <ctype.h>
+
+
+#ifndef __DEBUG
+#define __DEBUG
+#endif
+
+#define DEBUG if(__DEBUG)
+#define LOG printf
+
 // https://www.geeksforgeeks.org/c-program-for-binary-search-tree/
 // https://www.codesdope.com/blog/article/binary-search-tree-in-c/
 // https://www.freecodecamp.org/news/binary-search-trees-bst-explained-with-examples/
-
 
 /**
  * Function to create a new node with a given value
@@ -78,7 +86,7 @@ struct BinaryTreeNode* buildBalancedBST(char **words, int start, int end) {
 }
 
 // Function to search for a value in the BST
-struct BinaryTreeNode* searchBST(struct BinaryTreeNode* root, char* value) {
+struct BinaryTreeNode* searchBST(struct BinaryTreeNode *root, char* value) {
     // Base Cases: root is null or key is present at root
     if (root == NULL || strcmp(root->key, value) == 0)
        return root;
@@ -91,28 +99,93 @@ struct BinaryTreeNode* searchBST(struct BinaryTreeNode* root, char* value) {
     return searchBST(root->left, value);
 }
 
-int searchDict(struct BinaryTreeNode *tree, char* word) 
-{
-    char tempWord[50];
-    int found=0;
-    int i =0;
-    while (word[i]) { 
-        char chr = *word[i]; 
-        tempWord[i]=tolower(chr); 
-        i++; 
-    } 
-    printf("%s\n\n",tempWord);
-    struct BinaryTreeNode *nodeFound = searchBST(tree, *word);
 
-    for (int i = 0; i  <3; i++)
+int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char* word) 
+{
+    // Test Case MacDonald
+    // check if the word matches exactly
+    // must equal ::MacDonald
+    
+    printf("\n\nSeach Dict:%s\n",word);
+    if (searchBST(tree, word) != NULL)
     {
-        if (nodeFound != NULL)
+        printf("Found:1:%s\n", word);
+        return 1;
+    }
+    // not found yet
+
+    // check if the word is all caps
+    // must equal ::MacDonald
+    // given MACDONALD
+    if (searchBST(treeCaps, word) != NULL)
+    {
+        printf("Found:2:%s\n", word);
+        return 1;
+    }
+    // int isAllCap = 1;
+    // // check if word is all uppercase
+    // for(int i = 0; word[i]; i++)
+    // {
+    //     if (islower(word[i]))
+    //     {
+    //         isAllCap = 0;
+    //         printf("Is not all uppercase\n");
+    //         break;
+    //     }
+    // }
+
+    // // if it is all caps
+    // if (isAllCap) 
+    // {
+    //     char tempWord[75];
+    //     int i;
+    //     for (i = 0; word[i]; i++) 
+    //     {
+    //         char chr = word[i]; 
+    //         tempWord[i] = tolower(chr); 
+    //     }
+    //     tempWord[strlen(word)]='\0';
+    //     printf("tempWord:2:%s\n",tempWord);
+        
+    //     // whole word is lowercase
+    //     if (searchBST(tree, tempWord) != NULL)
+    //     {
+    //         printf("Found:2:%s\n", tempWord);
+    //         return 1;
+    //     }
+    // }
+
+
+
+    // check if word starts with an uppercase letter
+    if (islower(word[0]))
+    {
+        char tempWord[75];
+        int i;
+        for (i = 0; word[i]; i++) 
         {
-            printf("\n\nFound:%s\n",*word);
+            char chr = word[i]; 
+            if(i==0)
+            {
+                tempWord[i] = tolower(chr); 
+            }
+            else
+            {
+                tempWord[i] = chr;
+            } 
+        }
+        // add the terminator string
+        tempWord[strlen(word)]='\0';
+        printf("tempWord:3:%s\n",tempWord);
+
+        if (searchBST(tree, tempWord) != NULL)
+        {
+            printf("Found:3:%s\n", tempWord);
             return 1;
         }
     }
-    printf("\n\nNot found:%s\n",*word);
-    free(nodeFound);
+
+    printf("Not found:%s\n", word);
     return 0;
+
 }

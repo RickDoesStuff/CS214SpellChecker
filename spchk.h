@@ -1,3 +1,4 @@
-#ifndef _SPCHK_H
-#define _SPCHK_H
+#ifndef SPCHK_H
+#define SPCHK_H
+
 #endif
