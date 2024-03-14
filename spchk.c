@@ -39,6 +39,7 @@ int main(int argc, char **argv)
 
     int arrsize=100;
     char **wordArr = malloc(arrsize * sizeof(char *));
+    char **wordArrCAPS = malloc(arrsize * sizeof(char *));
 
     // load the dictionary
     while ((curLine = next_line(&lines)))
@@ -46,14 +47,6 @@ int main(int argc, char **argv)
         DEBUG LOG("word:::%d:%s\n", wordCount, curLine);
         // or make an insert fuction to insert directly into the tree
         wordArr[wordCount]=strdup(curLine);
-        wordCount++;
-        
-        // if we run out of room in our array
-        if (wordCount==arrsize){
-            DEBUG LOG("Bigger*2\n");
-            arrsize=arrsize*2;
-            wordArr=realloc(wordArr,sizeof(char *)*arrsize);
-        }
 
         // make the words capital as well
         char tempWord[75];
@@ -64,13 +57,15 @@ int main(int argc, char **argv)
             tempWord[i] = toupper(chr); 
         }
         tempWord[strlen(curLine)]='\0';
-        wordArr[wordCount]=strdup(tempWord);
+        wordArrCAPS[wordCount]=strdup(tempWord);
+
         wordCount++;
 
         // if we run out of room in our array
         if (wordCount==arrsize){
             DEBUG LOG("Bigger*2\n");
             arrsize=arrsize*2;
+            wordArrCAPS=realloc(wordArrCAPS,sizeof(char *)*arrsize);
             wordArr=realloc(wordArr,sizeof(char *)*arrsize);
         }
     }
@@ -83,6 +78,10 @@ int main(int argc, char **argv)
     struct BinaryTreeNode *tree  = buildBalancedBST(wordArr, 0, wordCount - 1);
     preOrder(tree);
     printf("\n\n\n");
+    // create the CAPS binary tree
+    struct BinaryTreeNode *treeCaps  = buildBalancedBST(wordArrCAPS, 0, wordCount - 1);
+    preOrder(treeCaps);
+    printf("\n\n\n");
 
 
     // check words
@@ -90,7 +89,7 @@ int main(int argc, char **argv)
     
     for (int i=0; words[i]; i++)
     {
-        searchDict(tree,words[i]);
+        searchDict(tree,treeCaps,words[i]);
     }
 
 
