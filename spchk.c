@@ -15,14 +15,23 @@
 
 int main(int argc, char **argv)
 {
-    // file name
+    // file names
     char *fname = argc > 1 ? argv[1] : "dict_small.txt";
+    char *fparagraph = argc > 2 ? argv[2] : "paragraph.txt";
 
-
+    // open dictionary file
     int fileDesc = open(fname, O_RDONLY);
     if (fileDesc < 0)
     {
         perror(fname);
+        exit(EXIT_FAILURE);
+    }
+
+    // open paragraph file
+    int fileDesc2 = open(fparagraph, O_RDONLY);
+    if (fileDesc < 0)
+    {
+        perror(fparagraph);
         exit(EXIT_FAILURE);
     }
 
@@ -46,6 +55,7 @@ int main(int argc, char **argv)
     {
         DEBUG LOG("word:::%d:%s\n", wordCount, curLine);
         // or make an insert fuction to insert directly into the tree
+        
         wordArr[wordCount]=strdup(curLine);
 
         // make the words capital as well
@@ -70,8 +80,12 @@ int main(int argc, char **argv)
         }
     }
 
+    printf("\n\nword45:%s\n\n",wordArr[45]);
+
     lddestroy(&lines);
 
+    printf("\n\nword45:%s\n\n",wordArr[45]);
+    
     
     printf("\n\n\n");
     // create the binary tree
@@ -83,16 +97,36 @@ int main(int argc, char **argv)
     preOrder(treeCaps);
     printf("\n\n\n");
 
+    printf("\n\nword45:%s\n\n",wordArr[45]);
 
     // check words
-    char *words[]={"zoom","ZOOM","Zoom","MacDonald","MACDONALD","macDonald"};
-    
-    for (int i=0; words[i]; i++)
+    // char *words[]={"zoom","ZOOM","Zoom","MacDonald","MACDONALD","macDonald"};
+
+    // read the paragraph file
+    lines_t lines2;
+    ldinit(&lines2, fileDesc2);
+
+    while ((curLine = next_line(&lines2)))
     {
-        searchDict(tree,treeCaps,words[i]);
+        DEBUG LOG("word:::%s\n", curLine);
+        searchDict(tree,treeCaps,curLine);
     }
+    lddestroy(&lines2);
+
+    
+    printf("hello found:%i\n",searchDict(tree,treeCaps,"hello"));
+    printf("HELLO found:%i\n",searchDict(tree,treeCaps,"HELLO"));
+    
+    // for (int i=0; words[i]; i++)
+    // {
+    //     searchDict(tree,treeCaps,words[i]);
+    // }
 
 
+    printf("\n\n\n");
+    preOrder(tree);
+    printf("\n\n\n");
+    preOrder(treeCaps);
 
     return EXIT_SUCCESS;
 }

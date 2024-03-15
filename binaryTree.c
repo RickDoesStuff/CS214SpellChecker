@@ -109,9 +109,10 @@ int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, cha
     printf("\n\nSeach Dict:%s\n",word);
     if (searchBST(tree, word) != NULL)
     {
-        printf("Found:1:%s\n", word);
+        printf("Test 1:Found:%s\n", word);
         return 1;
     }
+    printf("Test 1:Not found:%s\n",word);
     // not found yet
 
     // check if the word is all caps
@@ -119,9 +120,10 @@ int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, cha
     // given MACDONALD
     if (searchBST(treeCaps, word) != NULL)
     {
-        printf("Found:2:%s\n", word);
+        printf("Test 1 CAPS:Found:%s\n", word);
         return 1;
     }
+    printf("Test 1 CAPS:Not found:%s\n",word);
     // int isAllCap = 1;
     // // check if word is all uppercase
     // for(int i = 0; word[i]; i++)
@@ -158,7 +160,9 @@ int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, cha
 
 
     // check if word starts with an uppercase letter
-    if (islower(word[0]))
+    // if it is uppercase, make it lowercase
+    //printf("upperCase?:%c\n",word[0]);
+    if (isupper(word[0]))
     {
         char tempWord[75];
         int i;
@@ -176,12 +180,28 @@ int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, cha
         }
         // add the terminator string
         tempWord[strlen(word)]='\0';
-        printf("tempWord:3:%s\n",tempWord);
+        printf("Test 2:Checking tempWord:%s:from:%s\n",tempWord,word);
 
         if (searchBST(tree, tempWord) != NULL)
         {
-            printf("Found:3:%s\n", tempWord);
+            printf("Test 2:Found tempword:%s:from:%s\n", tempWord,word);
             return 1;
+        }
+    }
+    printf("Test 2:not found:%s\n",word);
+
+    // check if word is hypenated
+    int hypenIndex;
+
+    for (int i = 0; word[i]; i++) 
+    {
+        char chr = word[i]; 
+        if(chr=='-')
+        {
+            hypenIndex=i;
+            printf("word:%s\n",word);
+            printf("chr:%c\n",chr);
+            printf("i:%i\n",hypenIndex);
         }
     }
 
