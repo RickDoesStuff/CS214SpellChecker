@@ -6,6 +6,13 @@
 #include <string.h>
 
 
+#ifndef __DEBUG
+#define __DEBUG 
+#endif
+
+#define DEBUG if(__DEBUG)
+#define LOG printf
+
 /**
  * key:char* the string
  * left:BinaryTreeNode* the left node

@@ -6,13 +6,6 @@
 #include "binaryTree.h"
 
 
-#ifndef __DEBUG
-#define __DEBUG 
-#endif
-
-#define DEBUG if(__DEBUG)
-#define LOG printf
-
 int main(int argc, char **argv)
 {
     // file names
@@ -80,24 +73,24 @@ int main(int argc, char **argv)
         }
     }
 
-    printf("\n\nword45:%s\n\n",wordArr[45]);
+    DEBUG LOG("\n\nword45:%s\n\n",wordArr[45]);
 
     lddestroy(&lines);
 
-    printf("\n\nword45:%s\n\n",wordArr[45]);
+    DEBUG LOG("\n\nword45:%s\n\n",wordArr[45]);
     
     
     printf("\n\n\n");
     // create the binary tree
     struct BinaryTreeNode *tree  = buildBalancedBST(wordArr, 0, wordCount - 1);
-    preOrder(tree);
-    printf("\n\n\n");
+    DEBUG preOrder(tree);
+    DEBUG printf("\n\n\n");
     // create the CAPS binary tree
     struct BinaryTreeNode *treeCaps  = buildBalancedBST(wordArrCAPS, 0, wordCount - 1);
-    preOrder(treeCaps);
-    printf("\n\n\n");
+    DEBUG preOrder(treeCaps);
+    DEBUG printf("\n\n\n");
 
-    printf("\n\nword45:%s\n\n",wordArr[45]);
+    DEBUG LOG("\n\nword45:%s\n\n",wordArr[45]);
 
     // check words
     // char *words[]={"zoom","ZOOM","Zoom","MacDonald","MACDONALD","macDonald"};
@@ -114,8 +107,8 @@ int main(int argc, char **argv)
     lddestroy(&lines2);
 
     
-    printf("hello found:%i\n",searchDict(tree,treeCaps,"hello"));
-    printf("HELLO found:%i\n",searchDict(tree,treeCaps,"HELLO"));
+    //printf("hello found:%i\n",searchDict(tree,treeCaps,"hello"));
+    //printf("HELLO found:%i\n",searchDict(tree,treeCaps,"HELLO"));
     
     // for (int i=0; words[i]; i++)
     // {
@@ -123,10 +116,10 @@ int main(int argc, char **argv)
     // }
 
 
-    printf("\n\n\n");
-    preOrder(tree);
-    printf("\n\n\n");
-    preOrder(treeCaps);
+    DEBUG LOG("\n\n\n");
+    DEBUG preOrder(tree);
+    DEBUG LOG("\n\n\n");
+    DEBUG preOrder(treeCaps);
 
     return EXIT_SUCCESS;
 }

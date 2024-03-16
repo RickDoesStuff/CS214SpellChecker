@@ -1,14 +1,6 @@
 #include "binaryTree.h"
 #include <ctype.h>
 
-
-#ifndef __DEBUG
-#define __DEBUG
-#endif
-
-#define DEBUG if(__DEBUG)
-#define LOG printf
-
 // https://www.geeksforgeeks.org/c-program-for-binary-search-tree/
 // https://www.codesdope.com/blog/article/binary-search-tree-in-c/
 // https://www.freecodecamp.org/news/binary-search-trees-bst-explained-with-examples/
@@ -191,17 +183,56 @@ int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, cha
     printf("Test 2:not found:%s\n",word);
 
     // check if word is hypenated
-    int hypenIndex;
-
-    for (int i = 0; word[i]; i++) 
-    {
-        char chr = word[i]; 
-        if(chr=='-')
+    int hypenIndex=-1;
+    int found=0;
+    int i = 0;
+    char tempWord[75];
+    for (i = 0; word[i]; i++) 
+    {   
+        char chr = word[i];
+        if(chr == '-')
         {
+            // end the first part of the hypenated word
+            tempWord[i]='\0';
             hypenIndex=i;
-            printf("word:%s\n",word);
-            printf("chr:%c\n",chr);
-            printf("i:%i\n",hypenIndex);
+            //printf("word:%s\n",word);
+            printf("tempWord:%s\n",tempWord);
+            //printf("chr:%c\n",chr);
+            //printf("i:%i\n",hypenIndex);
+            found = searchDict(tree,treeCaps,tempWord);
+            printf("Test 3:Found tempWord:1:%i\n",found);
+            if (found){
+                printf("Test 3:Found tempWord:1:%s\n",tempWord);
+            }else
+            {
+                printf("Test 3:not found tempWord:1:%s\n",tempWord);
+            }
+
+        }
+        if (hypenIndex != -1)
+        {
+            //printf("hyphen Index:%i\n",hypenIndex);
+            tempWord[i-hypenIndex-1]=chr;
+            //printf("chr:%c\n",chr);
+        } else 
+        {
+            //printf("hyphen Index:%i\n",hypenIndex);
+            tempWord[i-hypenIndex-1]=chr;
+            //printf("chr:%c\n",chr);
+        }
+    }
+    if (hypenIndex !=- 1)
+    {
+        tempWord[i-hypenIndex-1]='\0';
+        //printf("hyphen Index:%i\n",hypenIndex);
+        printf("tempWord:%s\n",tempWord);
+
+        // the first word and second word is found
+        if (found && searchDict(tree, treeCaps, tempWord))
+        {
+            printf("Test 3:Found tempWord:2:%s\n",tempWord);
+            printf("**********\nfound entire word:%i\n", found);
+            return 1;
         }
     }
 
