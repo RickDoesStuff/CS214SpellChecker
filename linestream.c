@@ -154,6 +154,9 @@ char *next_line(lines_t *lines, int *row, int *col)
 
                 // increase the line counter after everything else
                 lineCount++;
+
+                // reset the word counter
+                wordCount = 0;
             }
             
             // increase the lines counter
