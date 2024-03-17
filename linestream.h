@@ -32,7 +32,7 @@ void ldinit(lines_t *lines, int fileDesc);
 // Function to free the resources of lines_t struct
 void lddestroy(lines_t *lines);
 
-// Function to read the next line from the file
+// Function to read the next line from the file, also handles word and line counting with row and col
 char *next_line(lines_t *lines, int *row, int *col);
 
 #endif // LINES_H
