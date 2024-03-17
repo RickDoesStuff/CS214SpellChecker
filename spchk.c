@@ -125,7 +125,7 @@ int main(int argc, char **argv)
         DEBUG LOG("word:::%s\n", curLine);
         if (searchDict(tree,treeCaps,curLine) == 0)
         {
-            printf("Word missspelled at:%d:%d::%s\n",row,col,curLine);
+            printf("Word missspelled at:row %d:col %d::%s\n",row,col,curLine);
         }
 
     }
