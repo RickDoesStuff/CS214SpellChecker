@@ -6,6 +6,13 @@
 #include "binaryTree.h"
 
 
+/**
+ * basic string compare function used in qsort
+*/
+int compare(const void* num1, const void* num2)  
+{  
+    return strcmp(*(char**)num1, *(char**)num2);     
+}  
 int main(int argc, char **argv)
 {
     // file names
@@ -76,28 +83,38 @@ int main(int argc, char **argv)
             wordArr=realloc(wordArr,sizeof(char *)*arrsize);
         }
     }
-
-    DEBUG LOG("\n\nword45:%s\n\n",wordArr[45]);
-
     lddestroy(&lines);
-
-    DEBUG LOG("\n\nword45:%s\n\n",wordArr[45]);
     
     
-    printf("\n\n\n");
+    DEBUG LOG("\n\n\n");
     // create the binary tree
+    // printf("\nThe non sorted array: ");  
+    // printf("\n[");  
+    // for(int i = 0; i < wordCount; i++)  
+    // {  
+    //     printf("%s, ", wordArr[i]);  
+    // }  
+    // printf("]");  
+    qsort(wordArr, wordCount, sizeof(char*), compare);
+    qsort(wordArrCAPS, wordCount, sizeof(char*), compare);
+
+    // printf("\nThe sorted array: ");  
+    // printf("\n[");  
+    // for(int i = 0; i < wordCount; i++)  
+    // {  
+    //     printf("%s, ", wordArr[i]);  
+    // }  
+    // printf("]");  
+
     struct BinaryTreeNode *tree  = buildBalancedBST(wordArr, 0, wordCount - 1);
     DEBUG preOrder(tree);
     DEBUG printf("\n\n\n");
     // create the CAPS binary tree
+    
     struct BinaryTreeNode *treeCaps  = buildBalancedBST(wordArrCAPS, 0, wordCount - 1);
     DEBUG preOrder(treeCaps);
     DEBUG printf("\n\n\n");
 
-    DEBUG LOG("\n\nword45:%s\n\n",wordArr[45]);
-
-    // check words
-    // char *words[]={"zoom","ZOOM","Zoom","MacDonald","MACDONALD","macDonald"};
 
     // read the paragraph file
     lines_t lines2;
@@ -108,7 +125,7 @@ int main(int argc, char **argv)
         DEBUG LOG("word:::%s\n", curLine);
         if (searchDict(tree,treeCaps,curLine) == 0)
         {
-            printf("Word missspelled at:%d:%d::%s\n",row,col,curLine);
+            printf("Word missspelled at:row %d:col %d::%s\n",row,col,curLine);
         }
 
     }
