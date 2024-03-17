@@ -30,5 +30,10 @@ void preOrder(struct BinaryTreeNode* root);
 struct BinaryTreeNode* buildBalancedBST(char **words, int start, int end);
 struct BinaryTreeNode* searchBST(struct BinaryTreeNode* root, char* value);
 int searchDict(struct BinaryTreeNode *tree,struct BinaryTreeNode *treeCaps, char* word);
+int searchHyphenatedWord(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char *word);
+int matchTree(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char *word);
+int checkUppercase(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char *word);
+int searchPartOfHyphenWord(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char* word);
+
 
 #endif // BINARYTREE_H

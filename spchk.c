@@ -95,16 +95,16 @@ int main(int argc, char **argv)
     //     printf("%s, ", wordArr[i]);  
     // }  
     // printf("]");  
-    qsort(wordArr, wordCount, sizeof(char*), compare);
-    qsort(wordArrCAPS, wordCount, sizeof(char*), compare);
+    //qsort(wordArr, wordCount, sizeof(char*), compare);
+    //qsort(wordArrCAPS, wordCount, sizeof(char*), compare);
 
-    // printf("\nThe sorted array: ");  
-    // printf("\n[");  
-    // for(int i = 0; i < wordCount; i++)  
-    // {  
-    //     printf("%s, ", wordArr[i]);  
-    // }  
-    // printf("]");  
+    printf("\nThe sorted array: ");  
+    printf("\n[");  
+    for(int i = 0; i < wordCount; i++)  
+    {  
+        printf("%s, ", wordArr[i]);  
+    }  
+    printf("]");  
 
     struct BinaryTreeNode *tree  = buildBalancedBST(wordArr, 0, wordCount - 1);
     DEBUG preOrder(tree);
@@ -122,7 +122,8 @@ int main(int argc, char **argv)
 
     while ((curLine = next_line(&lines2, &row, &col)))
     {
-        DEBUG LOG("word:::%s\n", curLine);
+
+        printf("\n**********\nword:::%s\n", curLine);
         if (searchDict(tree,treeCaps,curLine) == 0)
         {
             printf("Word missspelled at:row %d:col %d::%s\n",row,col,curLine);
