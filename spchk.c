@@ -37,6 +37,10 @@ int main(int argc, char **argv)
     
     // word counter
     int wordCount = 0;
+
+    // location of word in paragraph
+    int row = 1;
+    int col = 0;
     
 
     int arrsize=100;
@@ -44,7 +48,7 @@ int main(int argc, char **argv)
     char **wordArrCAPS = malloc(arrsize * sizeof(char *));
 
     // load the dictionary
-    while ((curLine = next_line(&lines)))
+    while ((curLine = next_line(&lines, NULL, NULL)))
     {
         DEBUG LOG("word:::%d:%s\n", wordCount, curLine);
         // or make an insert fuction to insert directly into the tree
@@ -99,10 +103,14 @@ int main(int argc, char **argv)
     lines_t lines2;
     ldinit(&lines2, fileDesc2);
 
-    while ((curLine = next_line(&lines2)))
+    while ((curLine = next_line(&lines2, &row, &col)))
     {
         DEBUG LOG("word:::%s\n", curLine);
-        searchDict(tree,treeCaps,curLine);
+        if (searchDict(tree,treeCaps,curLine) == 0)
+        {
+            printf("Word missspelled at:%d:%d::%s\n",row,col,curLine);
+        }
+
     }
     lddestroy(&lines2);
 

@@ -33,6 +33,6 @@ void ldinit(lines_t *lines, int fileDesc);
 void lddestroy(lines_t *lines);
 
 // Function to read the next line from the file
-char *next_line(lines_t *lines);
+char *next_line(lines_t *lines, int *row, int *col);
 
 #endif // LINES_H

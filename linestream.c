@@ -50,12 +50,18 @@ void lddestroy(lines_t *lines)
     free(lines->buf);
 }
 
+// intialize the line counters
+int lineCount = 1;
+int wordCount = 0;
+
 /**
  * Get the next line in the file
  * each line has a different word
 */
-char *next_line(lines_t *lines)
+  
+char *next_line(lines_t *lines, int *row, int *col)
 {
+    
     // returns NULL at invalid file 
     if (lines->fileDesc < 0)
         return NULL;
@@ -118,6 +124,13 @@ char *next_line(lines_t *lines)
             // put string terminator onto end of buffer
             DEBUG LOG ("end of word\n");
 
+            // increase the word counter when not reading the dictonary
+            if (col != NULL) {
+                wordCount++;
+                *col = wordCount;
+                DEBUG LOG("wordCount:%i\n", wordCount);
+            }
+
             lines->buf[lines->pos] = '\0';
 
             lines->pos++;
@@ -129,6 +142,19 @@ char *next_line(lines_t *lines)
             // put string terminator onto end of buffer
             DEBUG LOG ("end of line\n");
             lines->buf[lines->pos] = '\0';
+
+            // increase the line counter and the word counter when not reading the dictonary
+            if (row != NULL) {
+                //word counter always gets increased first
+                wordCount++;
+
+                *row = lineCount;
+                *col = wordCount;
+                DEBUG LOG("lineCount:%i,wordCount:%i\n", lineCount, wordCount);
+
+                // increase the line counter after everything else
+                lineCount++;
+            }
             
             // increase the lines counter
             lines->pos++;
@@ -145,6 +171,15 @@ char *next_line(lines_t *lines)
     // printf("Reached EOF");
     close(lines->fileDesc);
     lines->fileDesc = -1;
+    
+    // need this when reading the last word of the paragraph
+    // for some reason it does not increase the last word count
+    // when breaking from the loop
+    if (row != NULL && col != NULL) {
+        wordCount++;
+        *row = lineCount;
+        *col = wordCount;
+    }
 
     DEBUG LOG("Lstart:%i,Lpos:%i,Lsize:%i\n", line_start, lines->pos,lines->size);
 
