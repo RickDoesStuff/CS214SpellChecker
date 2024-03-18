@@ -1,11 +1,12 @@
-#ifndef LINES_H
-#define LINES_H
+#ifndef LINESTREAM_H
+#define LINESTREAM_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
+#include <ctype.h>
 
 // You might want to move these definitions to a central configuration file or remove them
 // if they are defined elsewhere.
@@ -32,7 +33,7 @@ void ldinit(lines_t *lines, int fileDesc);
 // Function to free the resources of lines_t struct
 void lddestroy(lines_t *lines);
 
-// Function to read the next line from the file, also handles word and line counting with row and col
-char *next_line(lines_t *lines, int *row, int *col);
+// Function to read the next word from the file, also handles word and line counting with row and col
+char *next_word(lines_t *lines, int *row, int *col);
 
-#endif // LINES_H
+#endif
