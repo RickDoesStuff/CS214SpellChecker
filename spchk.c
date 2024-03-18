@@ -160,10 +160,9 @@ int main(int argc, char **argv)
     if (missSpelledWord){
         //printf("\n\nsuccess");
         return(EXIT_SUCCESS);
-    } else {
-        //printf("\n\nfailure(miss spelled words)");
-        return(EXIT_FAILURE);
     }
+        //printf("\n\nfailure(miss spelled words)");
+    return(EXIT_FAILURE);
     //return EXIT_SUCCESS;
 }
 
