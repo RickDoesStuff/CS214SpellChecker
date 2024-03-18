@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 
 // traversing the directories
-char **searchFiles(char *dirPath, const char *fileExt, int *numFiles);
+char** searchFiles(char *dirPath, const char *fileExt, int *numFiles);
+char** appendFilePath(char **filePaths, int *size, int *count, const char *filePath);
 
 #endif

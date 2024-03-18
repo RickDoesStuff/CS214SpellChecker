@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     // file names
     char *fname = argc > 1 ? argv[1] : "dict_small.txt";
     char *fparagraph = argc > 2 ? argv[2] : "paragraph.txt";
-    char *fdirectory = argc > 3 ? argv[3] : "test";
+    char *fdirectory = argc > 3 ? argv[3] : "non";
 
     // Getting the parameters from terminal
     // char *fname = argv[1];
@@ -141,9 +141,10 @@ int main(int argc, char **argv)
     if (fdirectory != NULL)
     {
         
-        printf("before searchFiles\n");
+        //printf("before searchFiles\n");
+        
         char **filePaths = searchFiles(fdirectory, fileExt, &numFiles);
-        printf("after searchFiles\n");
+        //printf("\n\n\nafter searchFiles\n");
 
         // filePaths are not null (there are file paths)
         if (filePaths != NULL)
@@ -151,17 +152,16 @@ int main(int argc, char **argv)
             // loops through each file opening and reading it
             for (int i = 0; i < numFiles; i++)
             {
-                printf("Checking path:%s\n",filePaths[i]);
-                int testVal=-1;
+                //printf("Checking path:%s\n",filePaths[i]);
                 // if there is atleast 1 miss spelled word, set the boolean to false
-                if ((testVal = checkStuffThing(tree,treeCaps,filePaths[i])) == 0)
+                if ((checkStuffThing(tree,treeCaps,filePaths[i])) == 0)
                 {
                     missSpelledWord = 0;
                 }
-                    printf("testVal:%i\n",testVal);
+                //printf("testVal:%i\n",testVal);
             }
         } else {
-            printf("file path is null!!\n");
+            //printf("file path is null!!\n");
         }
     }
 
@@ -170,10 +170,10 @@ int main(int argc, char **argv)
     DEBUG LOG("\n\n\n");
     DEBUG preOrder(treeCaps);
     if (missSpelledWord){
-        printf("\n\nsuccess");
+        //printf("\n\nsuccess");
         exit(EXIT_SUCCESS);
     }else{
-        printf("\n\nfailure(miss spelled words)");
+        //printf("\n\nfailure(miss spelled words)");
         exit(EXIT_FAILURE);
 
     }
