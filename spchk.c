@@ -119,12 +119,12 @@ int main(int argc, char **argv)
     // qsort(wordArrCAPS, wordCount, sizeof(char*), compare);
 
     printf("\nThe sorted array: ");
-    printf("\n[");
-    for(int i = 0; i < wordCount; i++)
+    printf("\n[ %s", wordArr[0]);
+    for(int i = 1; i < wordCount; i++)
     {
-        printf("%s, ", wordArr[i]);
+        printf(", %s", wordArr[i]);
     }
-    printf("]");
+    printf(" ]\n");
 
     struct BinaryTreeNode *tree = buildBalancedBST(wordArr, 0, wordCount - 1);
     DEBUG preOrder(tree);
