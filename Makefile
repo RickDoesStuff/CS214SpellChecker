@@ -11,7 +11,7 @@ DFLAGS=-Wall -g -D__DEBUG
 TARGET_SPCHK=spchk
 
 # List of source files for spchk
-SOURCES_SPCHK= linestream.c spchk.c binaryTree.c
+SOURCES_SPCHK= linestream.c spchk.c binaryTree.c filestream.c
 
 # Object files to generate for spchk
 OBJECTS_SPCHK=$(SOURCES_SPCHK:.c=.o)
@@ -34,14 +34,15 @@ $(TARGET_SPCHK): $(OBJECTS_SPCHK)
 	$(CC) $(CFLAGS) -c $<
 
 # Special case for spchk.c which might not need a spchk.h
-spchk.o: spchk.c
-	$(CC) $(CFLAGS) -c $<
+# spchk.o: spchk.c
+# 	$(CC) $(CFLAGS) -c $<
 
 # Rule for cleaning up
 clean:
 	del -f $(OBJECTS_SPCHK) $(OBJECTS_MEMTEST)
 
 # Dependencies
+filestream.o: filestream.c filestream.h
 linestream.o: linestream.c linestream.h
 dictSearch.o: dictSearch.c dictSearch.h
 binaryTree.o: binaryTree.c binaryTree.h
