@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 
     // read the paragraph file
     missSpelledWord = wordDictCompare(tree,treeCaps,fparagraph);
-
+    
     if (fdirectory != NULL)
     {
         // load all the file paths found from the subdirectories of the given directory        
@@ -160,10 +160,9 @@ int main(int argc, char **argv)
     if (missSpelledWord){
         //printf("\n\nsuccess");
         exit(EXIT_SUCCESS);
-    }else{
+    } else {
         //printf("\n\nfailure(miss spelled words)");
         exit(EXIT_FAILURE);
-
     }
     return EXIT_SUCCESS;
 }

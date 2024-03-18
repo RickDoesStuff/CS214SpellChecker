@@ -140,7 +140,7 @@ int checkUppercase(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps,
     //printf("upperCase?:%c\n",word[0]);
     if (isupper(word[0]))
     {
-        char tempWord[75];
+        char tempWord[4096];
         int i;
         for (i = 0; word[i]; i++) 
         {
@@ -208,7 +208,7 @@ int searchHyphenatedWord(struct BinaryTreeNode *tree, struct BinaryTreeNode *tre
     int wordLength = 0;
     int hadHyphen = 0;
     //int length = strlen(word);
-    char tempWord[75];
+    char tempWord[4096];
 
     int i = 0;
     for (i = 0; word[i]; i++) 
