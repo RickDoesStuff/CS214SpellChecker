@@ -15,9 +15,22 @@ int compare(const void* num1, const void* num2)
 }  
 int main(int argc, char **argv)
 {
+    // file extention
+    // const char *fileExt = ".txt";
+    // int numFiles;
+    
+
+
     // file names
     char *fname = argc > 1 ? argv[1] : "dict_small.txt";
     char *fparagraph = argc > 2 ? argv[2] : "paragraph.txt";
+
+    // Getting the parameters from terminal
+    // char *fname = argv[1];
+    // To check current directory for the file
+    // char *fparagraph = argv[2];
+    // To check a directory for several files
+    // char *fdirectory = argv[3];
 
     // open dictionary file
     int fileDesc = open(fname, O_RDONLY);
@@ -34,6 +47,8 @@ int main(int argc, char **argv)
         perror(fparagraph);
         exit(EXIT_FAILURE);
     }
+
+    
 
     // create lines struct and innit
     lines_t lines;
@@ -55,8 +70,14 @@ int main(int argc, char **argv)
     char **wordArrCAPS = malloc(arrsize * sizeof(char *));
 
     // load the dictionary
-    while ((curLine = next_line(&lines, NULL, NULL)))
+    while ((curLine = next_word(&lines, NULL, NULL)))
     {
+        if (curLine == NULL){
+            // curline is a blank line in the file
+            printf("blank line\n");
+            continue;
+        }
+        
         DEBUG LOG("word:::%d:%s\n", wordCount, curLine);
         // or make an insert fuction to insert directly into the tree
         
@@ -98,13 +119,13 @@ int main(int argc, char **argv)
     //qsort(wordArr, wordCount, sizeof(char*), compare);
     //qsort(wordArrCAPS, wordCount, sizeof(char*), compare);
 
-    printf("\nThe sorted array: ");  
-    printf("\n[");  
-    for(int i = 0; i < wordCount; i++)  
-    {  
-        printf("%s, ", wordArr[i]);  
-    }  
-    printf("]");  
+    // printf("\nThe sorted array: ");  
+    // printf("\n[");  
+    // for(int i = 0; i < wordCount; i++)  
+    // {  
+    //     printf("%s, ", wordArr[i]);  
+    // }  
+    // printf("]");  
 
     struct BinaryTreeNode *tree  = buildBalancedBST(wordArr, 0, wordCount - 1);
     DEBUG preOrder(tree);
@@ -120,13 +141,18 @@ int main(int argc, char **argv)
     lines_t lines2;
     ldinit(&lines2, fileDesc2);
 
-    while ((curLine = next_line(&lines2, &row, &col)))
+    while ((curLine = next_word(&lines2, &row, &col)))
     {
-
-        printf("\n**********\nword:::%s\n", curLine);
+        if (strlen(curLine)==0){
+            // curline is a blank line in the file
+            DEBUG printf("blank line\n");
+            continue;
+        }
+        DEBUG printf("\n**********\nword:::%s\n", curLine);
         if (searchDict(tree,treeCaps,curLine) == 0)
         {
-            printf("Word missspelled at:row %d:col %d::%s\n",row,col,curLine);
+            //my_files/baz/bar.txt (8,19): almost-correkt
+            printf("path/to/file.txt (%i,%i): %s\n",row,col,curLine);
         }
 
     }
@@ -146,6 +172,6 @@ int main(int argc, char **argv)
     DEBUG preOrder(tree);
     DEBUG LOG("\n\n\n");
     DEBUG preOrder(treeCaps);
-
+    printf("\n\nsuccess");
     return EXIT_SUCCESS;
 }
