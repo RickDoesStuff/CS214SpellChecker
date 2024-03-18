@@ -24,18 +24,11 @@ int main(int argc, char **argv)
     int numFiles=0;
 
     // file names
-    char *fname = argc > 1 ? argv[1] : "dict_small.txt";
+    char *fname = argc > 1 ? argv[1] : "dict.txt";
     char *fparagraph = argc > 2 ? argv[2] : "paragraph.txt";
-    char *fdirectory = argc > 3 ? argv[3] : "non";
+    char *fdirectory = argc > 3 ? argv[3] : NULL;
 
-    // Getting the parameters from terminal
-    // char *fname = argv[1];
-    // To check current directory for the file
-    // char *fparagraph = argv[2];
-    // To check a directory for several files
-    // char *fdirectory = argv[3]
     // open dictionary file
-
     int fileDesc = open(fname, O_RDONLY);
     if (fileDesc < 0)
     {
@@ -136,32 +129,28 @@ int main(int argc, char **argv)
     DEBUG printf("\n\n\n");
 
     // read the paragraph file
-    missSpelledWord = checkStuffThing(tree,treeCaps,fparagraph);
+    missSpelledWord = wordDictCompare(tree,treeCaps,fparagraph);
 
     if (fdirectory != NULL)
     {
-        
-        //printf("before searchFiles\n");
-        
+        // load all the file paths found from the subdirectories of the given directory        
         char **filePaths = searchFiles(fdirectory, fileExt, &numFiles);
-        //printf("\n\n\nafter searchFiles\n");
-
         // filePaths are not null (there are file paths)
         if (filePaths != NULL)
         {
             // loops through each file opening and reading it
             for (int i = 0; i < numFiles; i++)
             {
-                //printf("Checking path:%s\n",filePaths[i]);
+                DEBUG LOG("Checking path:%s\n",filePaths[i]);
                 // if there is atleast 1 miss spelled word, set the boolean to false
-                if ((checkStuffThing(tree,treeCaps,filePaths[i])) == 0)
+                if ((wordDictCompare(tree,treeCaps,filePaths[i])) == 0)
                 {
                     missSpelledWord = 0;
                 }
-                //printf("testVal:%i\n",testVal);
+                
             }
         } else {
-            //printf("file path is null!!\n");
+            DEBUG LOG("file path is null!!\n");
         }
     }
 
@@ -183,7 +172,7 @@ int main(int argc, char **argv)
 /**
  * return 1 if all words are spelled correctly
 */
-int checkStuffThing(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char* path){
+int wordDictCompare(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char* path){
     int row = 1;
     int col = 1;
     int actualRow = 1;

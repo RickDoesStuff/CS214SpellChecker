@@ -4,10 +4,10 @@ contains
 zoom
 zooms
 words
-zoomy-wordy-booty
+zoom-word-booty
 
 and
 
-emptyline
+empty line
 
 spaces

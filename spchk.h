@@ -8,6 +8,6 @@
 #include "binaryTree.h"
 #include "filestream.h"
 
-int checkStuffThing(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char* path);
+int wordDictCompare(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char* path);
 
 #endif

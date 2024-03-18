@@ -86,7 +86,7 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
             // buffer doesnt need to be expanded
             else if (line_start < lines->pos)
             {
-                // printf("no buffer expansion\n");
+                DEBUG LOG("no buffer expansion\n");
                 int segment_length = lines->pos - line_start;
                 memmove(lines->buf, lines->buf + line_start, segment_length);
                 lines->pos = segment_length;
@@ -94,16 +94,14 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
             // start of file
             else
             {
-                printf("row gets reset here.\n");
                 DEBUG LOG("\nStart of new file\n");
                 lines->pos = 0;
             }
             int bytes = read(lines->fileDesc, lines->buf + lines->pos, lines->size - lines->pos);
 
-            // breaks if reads error?
+            // no bytes left
             if (bytes < 1)
             {
-                // printf("Breaking from loop\n");
                 break;
             }
             lines->len = lines->pos + bytes;
@@ -117,7 +115,7 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
         // detects end of a word!
         // doesnt work with hyphens right now
         // TODO: hyphens and punctuation
-        if (lines->buf[lines->pos] == ' ' || lines->buf[lines->pos] == '\n')
+        if (isspace(lines->buf[lines->pos]) || lines->buf[lines->pos] == '\n')
         {
             // put string terminator onto end of buffer
             DEBUG LOG("end of word\n");
@@ -141,7 +139,6 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
                     if (col != NULL)
                     {
                         (*actualCol)++;
-                        //*col = *actualCol;
                     }
                 }
             }
@@ -157,7 +154,6 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
             if (col != NULL)
             {
                 *col += numOfPunct;
-                // printf ("After Punct:Col:%i,Row:%i\n",*col,actualRow);
             }
 
             // Find the end of the word, skipping trailing punctuation
@@ -169,16 +165,11 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
 
             // Place the string terminator right after the last non-punctuation character of the word
             lines->buf[word_end + 1] = '\0';
-
-            // lines->buf[lines->pos] = '\0';
-
             lines->pos++;
 
             // checks if returning whitespace
             if (!isspace(lines->buf[lines->pos]))
             {
-                // printf("\n\n\n\n******\nchar:%c\nlines->pos:%i\nline_start:%i\nword_end:%i\nword:%s\n",lines->buf[lines->pos-1],lines->pos,line_start,word_end,lines->buf + line_start);
-                // return NULL;
                 return lines->buf + line_start;
             }
         }
@@ -195,7 +186,7 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
     }
 
     // Reached end of the file
-    // printf("Reached EOF");
+    DEBUG LOG("Reached EOF");
     close(lines->fileDesc);
     lines->fileDesc = -1;
 
@@ -205,7 +196,6 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
     if (row != NULL)
     {
         (*actualCol)++;
-        *col = *actualCol;
     }
 
     DEBUG LOG("Lstart:%i,Lpos:%i,Lsize:%i\n", line_start, lines->pos, lines->size);
@@ -219,7 +209,6 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
             lines->buf = realloc(lines->buf, lines->size + 1);
         }
         lines->buf[lines->pos] = '\0';
-        // printf("returning here 1\n");
         return lines->buf + line_start;
     }
 
@@ -235,32 +224,21 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
         *col += line_start;
     }
 
-    // // If we reach the end of the buffer while skipping leading punctuation, return NULL to indicate no more words
-    // if (line_start == lines->pos) {
-    //     return NULL; // Or handle appropriately based on your requirements
-    // }
-
     // Find the end of the word, skipping trailing punctuation
-    // printf("***before lines->pos:%i\n",lines->pos);
     int word_end = lines->pos - 1;
     while (ispunct(lines->buf[word_end]))
     {
         word_end--;
-        // printf("word_end:%i\n",word_end);
     }
 
     // Place the string terminator right after the last non-punctuation character of the word
     lines->buf[word_end + 1] = '\0';
 
-    //*col+=line_start;
-
     if (strlen(lines->buf) == 0)
     {
-        DEBUG printf("ret null\n");
+        DEBUG LOG("ret null\n");
         return "";
     }
-    // printf("returning here 2\n");
-    // lines->buf[lines->pos] = '\0';
+
     return lines->buf + line_start;
-    // return NULL;
 }
