@@ -76,7 +76,7 @@ int main(int argc, char **argv)
         wordArr[wordCount] = strdup(curLine);
 
         // make the words capital as well
-        char tempWord[75];
+        char tempWord[4096];
         int i;
         for (i = 0; curLine[i]; i++)
         {
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 
     // read the paragraph file
     missSpelledWord = wordDictCompare(tree,treeCaps,fparagraph);
-    
+
     if (fdirectory != NULL)
     {
         // load all the file paths found from the subdirectories of the given directory        
