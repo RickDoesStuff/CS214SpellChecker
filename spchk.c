@@ -68,7 +68,7 @@ int main(int argc, char **argv)
     char **wordArrCAPS = malloc(arrsize * sizeof(char *));
 
     // load the dictionary
-    while ((curLine = next_word(&lines, NULL, NULL)))
+    while ((curLine = next_word(&lines, NULL, NULL, NULL, NULL)))
     {
         if (curLine == NULL)
         {
@@ -115,16 +115,16 @@ int main(int argc, char **argv)
     //     printf("%s, ", wordArr[i]);
     // }
     // printf("]");
-    // qsort(wordArr, wordCount, sizeof(char*), compare);
-    // qsort(wordArrCAPS, wordCount, sizeof(char*), compare);
+    qsort(wordArr, wordCount, sizeof(char*), compare);
+    qsort(wordArrCAPS, wordCount, sizeof(char*), compare);
 
-    printf("\nThe sorted array: ");
-    printf("\n[ %s", wordArr[0]);
-    for(int i = 1; i < wordCount; i++)
-    {
-        printf(", %s", wordArr[i]);
-    }
-    printf(" ]\n");
+    // printf("\nThe sorted array: ");
+    // printf("\n[ %s", wordArr[0]);
+    // for(int i = 1; i < wordCount; i++)
+    // {
+    //     printf(", %s", wordArr[i]);
+    // }
+    // printf(" ]\n");
 
     struct BinaryTreeNode *tree = buildBalancedBST(wordArr, 0, wordCount - 1);
     DEBUG preOrder(tree);
@@ -185,7 +185,10 @@ int main(int argc, char **argv)
 */
 int checkStuffThing(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char* path){
     int row = 1;
-    int col = 0;
+    int col = 1;
+    int actualRow = 1;
+    int actualCol = 1;
+
     char *curLine;
     int spelledCorrect = 1;
 
@@ -199,7 +202,7 @@ int checkStuffThing(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps
     lines_t lines;
     ldinit(&lines, fileDesc);
 
-    while ((curLine = next_word(&lines, &row, &col)))
+    while ((curLine = next_word(&lines, &row, &col, &actualRow, &actualCol)))
     {
         if (strlen(curLine) == 0)
         {
