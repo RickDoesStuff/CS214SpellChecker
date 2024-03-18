@@ -149,8 +149,13 @@ char *next_word(lines_t *lines, int *row, int *col)
 
             // this stuff kinda works
             // Skip leading punctuation: Adjust line_start to the first non-punctuation character
+            int numOfPunct=0;
             while (line_start < lines->pos && ispunct(lines->buf[line_start])) {
                 line_start++;
+                numOfPunct++;
+            }
+            if (col != NULL){
+                *col+=numOfPunct;
             }
 
             // Find the end of the word, skipping trailing punctuation
@@ -222,7 +227,9 @@ char *next_word(lines_t *lines, int *row, int *col)
     // Skip leading punctuation: Adjust line_start to the first non-punctuation character
     while (ispunct(lines->buf[line_start])) {
         line_start++;
-        //printf("linestart:%i\n",line_start);
+    }
+    if (col != NULL){
+        *col+=line_start;
     }
 
     // // If we reach the end of the buffer while skipping leading punctuation, return NULL to indicate no more words
@@ -241,7 +248,8 @@ char *next_word(lines_t *lines, int *row, int *col)
     // Place the string terminator right after the last non-punctuation character of the word
     lines->buf[word_end + 1] = '\0';
 
-
+    
+    //*col+=line_start;
 
     DEBUG printf("\n\n\n\n******\nchar:%c\nlines->pos:%i\nline_start:%i\nword_end:%i\nlines->buf+line_start:%s\nlines->buf:[%s]\n",lines->buf[lines->pos-1],lines->pos,line_start,word_end,lines->buf+line_start,lines->buf);
     if (strlen(lines->buf)==0){
