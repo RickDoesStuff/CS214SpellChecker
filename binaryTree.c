@@ -111,7 +111,7 @@ int searchDict(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, cha
     {
         return 1;
     }
-    printf("Not found:%s\n", word);
+    //printf("Not found:%s\n", word);
     return 0;
 
 }
@@ -156,15 +156,15 @@ int checkUppercase(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps,
         }
         // add the terminator string
         tempWord[strlen(word)]='\0';
-        printf("Test 2:Checking tempWord:%s:from:%s\n",tempWord,word);
+        //printf("Test 2:Checking tempWord:%s:from:%s\n",tempWord,word);
 
         if (searchBST(tree, tempWord) != NULL)
         {
-            printf("Test 2:Found tempword:%s:from:%s\n", tempWord,word);
+            //printf("Test 2:Found tempword:%s:from:%s\n", tempWord,word);
             return 1;
         }
     }
-    printf("Test 2:not found:%s\n",word);
+    //printf("Test 2:not found:%s\n",word);
     return 0;
 }
 
@@ -177,13 +177,13 @@ int matchTree(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char
     // check if the word matches exactly or the all caps version
     // must equal ::MacDonald or MACDONALD
     
-    printf("\n\nSeach Dict:%s\n",word);
+    //printf("\n\nSeach Dict:%s\n",word);
     if (searchBST(tree, word) != NULL)
     {
-        printf("Test 1:Found:%s\n", word);
+        //printf("Test 1:Found:%s\n", word);
         return 1;
     }
-    printf("Test 1:Not found:%s\n",word);
+    //printf("Test 1:Not found:%s\n",word);
     // not found yet
 
     // check if the word is all caps
@@ -191,10 +191,10 @@ int matchTree(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps, char
     // given MACDONALD
     if (searchBST(treeCaps, word) != NULL)
     {
-        printf("Test 1 CAPS:Found:%s\n", word);
+        //printf("Test 1 CAPS:Found:%s\n", word);
         return 1;
     }
-    printf("Test 1 CAPS:Not found:%s\n",word);
+    //printf("Test 1 CAPS:Not found:%s\n",word);
     return 0;
 }
 
@@ -206,21 +206,22 @@ int searchHyphenatedWord(struct BinaryTreeNode *tree, struct BinaryTreeNode *tre
     int endOfWordIndex = 0;
     int startOfWordIndex = 0;
     int wordLength = 0;
-
+    int hadHyphen = 0;
     //int length = strlen(word);
     char tempWord[75];
 
     int i = 0;
-    for (i = 0; word[i]!=0; i++) 
+    for (i = 0; word[i]; i++) 
     {   
         // check if the current char is a hyphen or the next char is a null terminator
         // because if the next letter is a null terminator we need to check the current word since its the end of the entire word
-        if(word[i] == '-' || word[i+1] == '\0') {
+        if(word[i] == '-' || (hadHyphen==1 && word[i+1] == '\0')) {
             // end the first part of the hyphenated word
             endOfWordIndex = i;
             // get the length of the word in the hyphenated word
             if (word[i] == '-') 
             {
+                hadHyphen = 1;
                 // for the hyphen
                 wordLength = endOfWordIndex - startOfWordIndex;
             }else{
@@ -234,12 +235,12 @@ int searchHyphenatedWord(struct BinaryTreeNode *tree, struct BinaryTreeNode *tre
             // put null terminator at end of word
             tempWord[wordLength] = '\0'; 
 
-            printf("tempWord:%s\n",tempWord);
+            //printf("tempWord:%s\n",tempWord);
 
             // if not found, exit
             if (searchPartOfHyphenWord(tree, treeCaps, tempWord) == 0)
             {                
-                printf("Test 3:not found tempWord:%s\n",tempWord);
+                //printf("Test 3:not found tempWord:%s\n",tempWord);
                 return 0;
             }
             
@@ -256,9 +257,9 @@ int searchHyphenatedWord(struct BinaryTreeNode *tree, struct BinaryTreeNode *tre
     // the word ends with a -
     if (wordLength==0)
     {
-        printf("word length:%i\n",wordLength);
+        //printf("word length:%i\n",wordLength);
         return 0;
     }
-    printf("\n**Test 3:Found word:%s\n",word);
+    //printf("\n**Test 3:Found word:%s\n",word);
     return 1;
 }
