@@ -34,6 +34,6 @@ void ldinit(lines_t *lines, int fileDesc);
 void lddestroy(lines_t *lines);
 
 // Function to read the next word from the file, also handles word and line counting with row and col
-char *next_word(lines_t *lines, int *row, int *col);
+char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualCol);
 
 #endif

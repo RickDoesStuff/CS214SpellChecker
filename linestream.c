@@ -49,20 +49,18 @@ void lddestroy(lines_t *lines)
 }
 
 // intialize the line counters
-int actualRow = 1;
-int actualCol = 1;
 
 /**
  * Get the next line in the file
  * each line has a different word
  */
 
-char *next_word(lines_t *lines, int *row, int *col)
+char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualCol)
 {
     if (col != NULL && row != NULL)
     {
-        *col = actualCol;
-        *row = actualRow;
+        *col = *actualCol;
+        *row = *actualRow;
     }
     // returns NULL at invalid file
     if (lines->fileDesc < 0)
@@ -99,13 +97,6 @@ char *next_word(lines_t *lines, int *row, int *col)
                 printf("row gets reset here.\n");
                 DEBUG LOG("\nStart of new file\n");
                 lines->pos = 0;
-                if (row != NULL && col != NULL)
-                {
-                    actualRow = 1;
-                    actualCol = 1;
-                    *row = actualRow;
-                    *col = actualCol;
-                }
             }
             int bytes = read(lines->fileDesc, lines->buf + lines->pos, lines->size - lines->pos);
 
@@ -137,8 +128,9 @@ char *next_word(lines_t *lines, int *row, int *col)
                 // increase the row counter and reset col counter when a newline appears
                 if (lines->buf[lines->pos] == '\n')
                 {
-                    actualRow++;
-                    actualCol = 1;
+                    (*actualRow)++;
+                    *actualCol = 1;
+
                     DEBUG LOG("lineCount:%i,wordCount:%i\n", *row, *col);
                     // increase the line counter after everything else
                 }
@@ -148,8 +140,8 @@ char *next_word(lines_t *lines, int *row, int *col)
                     // increase the actual col counter
                     if (col != NULL)
                     {
-                        *col = actualCol;
-                        actualCol++;
+                        (*actualCol)++;
+                        //*col = *actualCol;
                     }
                 }
             }
@@ -197,7 +189,7 @@ char *next_word(lines_t *lines, int *row, int *col)
             // increase the *col
             if (col != NULL)
             {
-                actualCol++;
+                (*actualCol)++;
             }
         }
     }
@@ -210,10 +202,10 @@ char *next_word(lines_t *lines, int *row, int *col)
     // need this when reading the last word of the paragraph
     // for some reason it does not increase the last col count
     // when breaking from the loop
-    if (row != NULL && col != NULL)
+    if (row != NULL)
     {
-        *col = actualCol;
-        actualCol++;
+        (*actualCol)++;
+        *col = *actualCol;
     }
 
     DEBUG LOG("Lstart:%i,Lpos:%i,Lsize:%i\n", line_start, lines->pos, lines->size);
