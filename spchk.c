@@ -184,7 +184,7 @@ int wordDictCompare(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps
     int fileDesc = open(path, O_RDONLY);
     if (fileDesc < 0)
     {
-        printf(path);
+        printf("%s\n",path);
         exit(EXIT_FAILURE);
     }
 
