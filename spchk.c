@@ -39,7 +39,7 @@ int main(int argc, char **argv)
     int fileDesc = open(fname, O_RDONLY);
     if (fileDesc < 0)
     {
-        perror(fname);
+        printf("%s\n",fname);
         exit(EXIT_FAILURE);
     }
 
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     int fileDesc2 = open(fparagraph, O_RDONLY);
     if (fileDesc2 < 0)
     {
-        perror(fparagraph);
+        printf("%s\n",fparagraph);
         exit(EXIT_FAILURE);
     }
 
@@ -118,13 +118,13 @@ int main(int argc, char **argv)
     // qsort(wordArr, wordCount, sizeof(char*), compare);
     // qsort(wordArrCAPS, wordCount, sizeof(char*), compare);
 
-    // printf("\nThe sorted array: ");
-    // printf("\n[");
-    // for(int i = 0; i < wordCount; i++)
-    // {
-    //     printf("%s, ", wordArr[i]);
-    // }
-    // printf("]");
+    printf("\nThe sorted array: ");
+    printf("\n[");
+    for(int i = 0; i < wordCount; i++)
+    {
+        printf("%s, ", wordArr[i]);
+    }
+    printf("]");
 
     struct BinaryTreeNode *tree = buildBalancedBST(wordArr, 0, wordCount - 1);
     DEBUG preOrder(tree);
@@ -167,8 +167,7 @@ int main(int argc, char **argv)
 
     DEBUG LOG("\n\n\n");
     DEBUG preOrder(tree);
-    DEBUG LOG("\n\n\n");
-    DEBUG preOrder(treeCaps);
+    
     if (missSpelledWord){
         //printf("\n\nsuccess");
         exit(EXIT_SUCCESS);
@@ -193,7 +192,7 @@ int checkStuffThing(struct BinaryTreeNode *tree, struct BinaryTreeNode *treeCaps
     int fileDesc = open(path, O_RDONLY);
     if (fileDesc < 0)
     {
-        perror(path);
+        printf(path);
         exit(EXIT_FAILURE);
     }
 

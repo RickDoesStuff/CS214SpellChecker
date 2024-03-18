@@ -220,8 +220,6 @@ char *next_word(lines_t *lines, int *row, int *col)
     }
 
 
-    DEBUG printf("\n\n\n\n******\nchar:%c\nlines->pos:%i\nline_start:%i\nlines->buf+line_start:%s\nlines->buf:%s\n",lines->buf[lines->pos-1],lines->pos,line_start,lines->buf+line_start,lines->buf);
-
     // this is where the issue is happening
     line_start=0;
     // Skip leading punctuation: Adjust line_start to the first non-punctuation character
@@ -251,7 +249,6 @@ char *next_word(lines_t *lines, int *row, int *col)
     
     //*col+=line_start;
 
-    DEBUG printf("\n\n\n\n******\nchar:%c\nlines->pos:%i\nline_start:%i\nword_end:%i\nlines->buf+line_start:%s\nlines->buf:[%s]\n",lines->buf[lines->pos-1],lines->pos,line_start,word_end,lines->buf+line_start,lines->buf);
     if (strlen(lines->buf)==0){
         DEBUG printf("ret null\n");
         return "";
