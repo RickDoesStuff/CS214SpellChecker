@@ -159,12 +159,12 @@ int main(int argc, char **argv)
     
     if (missSpelledWord){
         //printf("\n\nsuccess");
-        exit(EXIT_SUCCESS);
+        return(EXIT_SUCCESS);
     } else {
         //printf("\n\nfailure(miss spelled words)");
-        exit(EXIT_FAILURE);
+        return(EXIT_FAILURE);
     }
-    return EXIT_SUCCESS;
+    //return EXIT_SUCCESS;
 }
 
 
