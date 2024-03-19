@@ -146,7 +146,7 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
             // this stuff kinda works
             // Skip leading punctuation: Adjust line_start to the first non-punctuation character
             int numOfPunct = 0;
-            while (line_start < lines->pos && ispunct(lines->buf[line_start]))
+            while (line_start < lines->pos && (ispunct(lines->buf[line_start])||isdigit(lines->buf[line_start])))
             {
                 line_start++;
                 numOfPunct++;
@@ -158,7 +158,7 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
 
             // Find the end of the word, skipping trailing punctuation
             int word_end = lines->pos - 1;
-            while (word_end > line_start && ispunct(lines->buf[word_end]))
+            while (word_end > line_start && (ispunct(lines->buf[word_end])||isdigit(lines->buf[word_end])))
             {
                 word_end--;
             }
@@ -215,7 +215,7 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
     // this is where the issue is happening
     line_start = 0;
     // Skip leading punctuation: Adjust line_start to the first non-punctuation character
-    while (ispunct(lines->buf[line_start]))
+    while (ispunct(lines->buf[line_start])||isdigit(lines->buf[line_start]))
     {
         line_start++;
     }
@@ -226,7 +226,7 @@ char *next_word(lines_t *lines, int *row, int *col, int *actualRow, int *actualC
 
     // Find the end of the word, skipping trailing punctuation
     int word_end = lines->pos - 1;
-    while (ispunct(lines->buf[word_end]))
+    while (ispunct(lines->buf[word_end])||isdigit(lines->buf[word_end]))
     {
         word_end--;
     }
